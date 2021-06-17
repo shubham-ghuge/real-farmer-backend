@@ -5,7 +5,6 @@ var jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 const { authHandler } = require('../middlewares/auth.middleware');
 const router = express.Router();
-require('dotenv').config();
 
 function accessDenial(req, res) {
     return res.status(401).json({ message: 'Bad Request' });
@@ -50,7 +49,7 @@ router.route('/login')
                     if (!checkPassword) {
                         return res.status(409).json({ success: false, message: 'Invalid Credentials' });
                     } else {
-                        const token = jwt.sign({ userId: user._id }, process.env['secret_key'], { expiresIn: '24h' })
+                        const token = jwt.sign({ userId: user._id }, process.env.secret_key, { expiresIn: '24h' })
                         res.status(200).json({ success: true, message: "Login Successful", token })
                     }
                 }
