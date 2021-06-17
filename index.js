@@ -6,7 +6,8 @@ const port = 3000;
 const { initialiseDbConnection } = require('./db/db.connect');
 const quizRoute = require('./routes/quiz.route');
 const userRoute = require('./routes/user.route');
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 
 app.use(cors());
 app.use(bodyParser.json());
