@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 initialiseDbConnection();
 
 app.get('/', (req, res) => {
+    console.log(process.env)
     res.json({ message: "hello from realfarmer-quiz" });
 })
 app.use('/quiz', quizRoute);
