@@ -32,7 +32,7 @@ router.get('/:quizId', async (req, res) => {
     const { quizId } = req.params;
     if (quizId) {
         try {
-            const quiz = await Quiz.findById(quizId);
+            const quiz = await Quiz.findById(quizId).lean();
             res.status(200).json({ success: true, quiz });
         } catch (error) {
             console.log("error getting quiz", error);

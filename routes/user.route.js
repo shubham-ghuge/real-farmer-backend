@@ -10,6 +10,19 @@ function accessDenial(req, res) {
     return res.status(401).json({ message: 'Bad Request' });
 }
 
+router.route('/')
+    .get(authHandler, async (req, res) => {
+        const { userId } = req.user;
+        try {
+            const response = await User.findById(userId);
+            const { name, email } = response;
+            res.status(200).json({ success: true, data: { name, email } });
+        } catch (error) {
+            console.log("error in getting user info", error);
+            res.status(412).json({ success: false, message: "error while fetching user information" });
+        }
+    });
+
 router.route('/register')
     .get(accessDenial)
     .post(async (req, res) => {
@@ -41,7 +54,7 @@ router.route('/login')
         const { email, password } = req.body;
         if (email && password) {
             try {
-                const user = await User.findOne({ email })
+                const user = await User.findOne({ email });
                 if (user === null) {
                     return res.status(403).json({ success: false, message: 'User Not Found' })
                 } else {
@@ -50,7 +63,7 @@ router.route('/login')
                         return res.status(409).json({ success: false, message: 'Invalid Credentials' });
                     } else {
                         const token = jwt.sign({ userId: user._id }, process.env.secret_key, { expiresIn: '24h' })
-                        res.status(200).json({ success: true, message: "Login Successful", token })
+                        res.status(200).json({ success: true, message: "Login Successful", token, name: user.name })
                     }
                 }
             }
