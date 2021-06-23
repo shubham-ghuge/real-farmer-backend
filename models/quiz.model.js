@@ -17,7 +17,8 @@ const questionSchema = new Schema({
         required: true
     },
     options: [optionSchema],
-    points: Number
+    points: Number,
+    note: String
 })
 const quizSchema = new Schema({
     quizName: {
